@@ -13,4 +13,13 @@ const markerSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
+
+markerSchema.set('toObject', {
+  transform: function (doc, ret) {
+    ret.id = ret.__id,
+      delete ret.__v;
+  }
+});
+
+
 module.exports = mongoose.model('Marker', markerSchema);
