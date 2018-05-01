@@ -4,7 +4,8 @@ const morgan = require('morgan');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
-// const {dbConnect} = require('./db-knex');
+
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
 const app = express();
 
