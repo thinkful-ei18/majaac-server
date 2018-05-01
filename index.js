@@ -8,10 +8,6 @@ const bodyParser = require('body-parser');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 
-
-const { PORT, CLIENT_ORIGIN } = require('./config');
-const { dbConnect } = require('./db-mongoose');
-
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 const markerRouter = require('./Marker/markerRouter');
 
