@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 
 
 const markerSchema = mongoose.Schema({
+  incidentType: { type: String },
   date: { type: Date, default: Date.now },
-  location: { type: [Number] }, // [long, lat]
-  type: { type: String, default: '' },
+  location: { type: [Number], required: true }, // [long, lat]
   // TODO: change default marker
   icon: { type: String, default: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' },
   description: { type: String },

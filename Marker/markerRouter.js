@@ -4,15 +4,18 @@ const express = require('express');
 const router = express.Router();
 const Marker = require('./markerModel');
 
-// A protected endpoint which needs a valid JWT to access it
-router.post('/marker', (req, res) => {
-  const { type, location, description, userId } = req.body
-    .create({ type, location, description, userId })
+router.post('/new/marker', (req, res) => {
+  const { incidentType, location, description, userId } = req.body;
+  const newMarker = { incidentType, location, description, userId };
+  console.log(newMarker);
+  Marker
+    .create({ incidentType, location, description, userId })
     .then(results => {
       return res.status(200).json(results);
     });
 
 });
+
 
 
 router.get('/marker', (req, res) => {
