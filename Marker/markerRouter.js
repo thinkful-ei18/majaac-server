@@ -18,7 +18,7 @@ router.post('/new/marker', (req, res) => {
 
 
 
-router.get('/marker', (req, res) => {
+router.get('/markers', (req, res) => {
   Marker
     .find()
     .then(results => {
