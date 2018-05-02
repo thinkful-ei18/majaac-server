@@ -13,7 +13,11 @@ const markerRouter = require('./Marker/markerRouter');
 
 const app = express();
 
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const {
+  router: authRouter,
+  localStrategy,
+  jwtStrategy,
+} = require('./auth/index');
 const { router: usersRouter } = require('./routes/users.js');
 
 app.use(bodyParser.json());
