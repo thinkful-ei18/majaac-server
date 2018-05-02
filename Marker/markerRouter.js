@@ -11,11 +11,13 @@ router.post('/new/marker', (req, res) => {
   const { incidentType, location, description, userId } = req.body;
   const newMarker = { incidentType, location, description, userId };
   console.log(newMarker);
-  Marker.create({ incidentType, location, description, userId }).then(
-    results => {
+  Marker.create({ incidentType, location, description, userId })
+    .then(results => {
       return res.status(200).json(results);
-    }
-  );
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
 });
 
 router.get('/markers', (req, res) => {
