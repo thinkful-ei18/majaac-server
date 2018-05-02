@@ -29,7 +29,7 @@ userSchema.methods.validatePassword = function(password) {
   return bcrypt.compare(password, this.password);
 };
 userSchema.statics.hashPassword = function(password) {
-  return bcrypt.hash(password, 6);
+  return bcrypt.hash(password, 12);
 };
 
 userSchema.methods.serialize = function() {
