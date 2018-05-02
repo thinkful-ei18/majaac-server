@@ -5,21 +5,15 @@ const router = express.Router();
 const Marker = require('./markerModel');
 const passport = require('passport');
 
-const jwtAuth = passport.authenticate(
-  'jwt',
-  { session: false },
-  (error, user, info) => {
-    console.log('error = ', error, ' info = ', info, '  user = ', user);
-  }
-);
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.post('/new/marker', jwtAuth, (req, res) => {
-  console.log('im here', req.headers);
+  console.log('im here', req.user.id);
   const userId = req.user.id;
   const { incidentType, location, description } = req.body;
-  const newMarker = { incidentType, location, description };
+  const newMarker = { incidentType, location, description, userId };
   console.log(newMarker);
-  Marker.create({ incidentType, location, description })
+  Marker.create({ incidentType, location, description, userId })
     .then(results => {
       return res.status(200).json(results);
     })
