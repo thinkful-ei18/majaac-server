@@ -7,13 +7,15 @@ const { JWT_SECRET } = require('../config');
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
   let user;
-  User.findOne({ username: username })
+  User.findOne({ username })
     .then(resUser => {
       user = resUser;
       if (!user) {
         return Promise.reject({
           reason: 'LoginError',
-          message: 'Incorrect username or password',
+          message: 'Incorrect username',
+          location: 'username',
+          status: 422
         });
       }
       return user.validatePassword(password);
@@ -22,7 +24,9 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       if (!isValid) {
         return Promise.reject({
           reason: 'LoginError',
-          message: 'Incorrect username or password',
+          message: 'Incorrect password',
+          location: 'password',
+          status: 422
         });
       }
       //if the if statement does not run return the user
@@ -30,9 +34,9 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
     })
     .catch(err => {
       if (err.reason === 'LoginError') {
-        return callback(null, false, err);
+        return callback(err);
       }
-      return callback(err, false);
+      return callback(null, false);
     });
 });
 
