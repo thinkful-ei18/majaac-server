@@ -28,4 +28,15 @@ router.get('/markers', (req, res) => {
   });
 });
 
+router.get('/markers/dashboard', jwtAuth, (req, res) => {
+  const userId = req.user.id;
+  Marker.find({ userId })
+    .then(res => {
+      return res.status(200).json(res);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
+});
+
 module.exports = router;
