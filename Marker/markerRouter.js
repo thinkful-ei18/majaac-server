@@ -31,12 +31,13 @@ router.get('/markers', (req, res) => {
 
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
+  console.log(`this should be userId in doc ${userId}`);
   Marker.find()
     .where('userId')
     .equals(userId)
-    .then(res => {
-      console.log(res);
-      return res.status(200).json();
+    .then(result => {
+      console.log(result);
+      return res.status(200).json(result);
     })
     .catch(err => {
       res.status(404).json(err);
