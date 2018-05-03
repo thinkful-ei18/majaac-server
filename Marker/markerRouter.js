@@ -44,4 +44,12 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
     });
 });
 
+router.delete('/markers/delete', jwtAuth, (req, res) => {
+  const markerId = req.body.markerId;
+
+  Marker.findByIdAndRemove(markerId).then(() =>
+    res.json({ message: 'Marker Deleted' })
+  );
+});
+
 module.exports = router;
