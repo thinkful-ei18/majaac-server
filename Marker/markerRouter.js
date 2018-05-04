@@ -30,7 +30,6 @@ router.get('/markers', (req, res) => {
 
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
-  console.log(`this should be userId in doc ${userId}`);
   Marker.find()
     .where('userId')
     .equals(userId)
@@ -45,10 +44,9 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
 
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
-
-  Marker.findByIdAndRemove(markerId).then(() =>
-    res.json({ message: 'Marker Deleted' })
-  );
+  Marker.findByIdAndRemove(markerId)
+    .then(() => res.json({ message: 'Marker Deleted' }))
+    .catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
