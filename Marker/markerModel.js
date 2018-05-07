@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const markerSchema = mongoose.Schema({
   incidentType: { type: String },
-  time: {type: String},
+  time: { type: String },
   date: { type: Date, default: Date.now },
   location: { type: Object, required: true }, // [long, lat]
   // TODO: change default marker
@@ -18,7 +18,7 @@ const markerSchema = mongoose.Schema({
 });
 
 markerSchema.set('toObject', {
-  transform: function(doc, ret) {
+  transform: function (doc, ret) {
     (ret.id = ret.__id), delete ret.__v;
   },
 });
