@@ -14,7 +14,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
-    const err = new Error(`Missing '${missingField}' in request body`);
+    const err = new Error(`Missing '${missingField}' in incident report`);
     err.status = 422;
     return next(err);
   }
