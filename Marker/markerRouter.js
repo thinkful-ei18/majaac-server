@@ -25,7 +25,7 @@ router.post('/new/marker', jwtAuth, (req, res) => {
       icon = 'https://i.imgur.com/0AQQaMn.png'; // crime icon
       break;
     }
-    case 'construction': {
+    case 'roadconstruction': {
       icon = 'https://i.imgur.com/enG4g3B.png'; // construction
       break;
     }
