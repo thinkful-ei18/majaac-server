@@ -9,10 +9,32 @@ const { getUserId } = require('../utils/getUserId');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.post('/new/marker', jwtAuth, (req, res) => {
+  let icon;
   const userId = getUserId(req);
   const { incidentType, date, time, description, location } = req.body;
-  const newMarker = { incidentType, date, time, description, location, userId };
-
+  switch (incidentType) {
+    case 'other': {
+      icon = 'https://i.imgur.com/NpcXSor.png'; // caution icon
+      break;
+    }
+    case 'accident': {
+      icon = 'https://i.imgur.com/RmolD1w.png'; // car icon
+      break;
+    }
+    case 'crime': {
+      icon = 'https://i.imgur.com/0AQQaMn.png'; // crime icon
+      break;
+    }
+    case 'roadconstruction': {
+      icon = 'https://i.imgur.com/enG4g3B.png'; // construction
+      break;
+    }
+    case 'theft': {
+      icon = 'https://i.imgur.com/CaZTP4c.png'; // theft icon
+      break;
+    }
+  }
+  const newMarker = { incidentType, date, time, description, location, userId, icon };
   Marker.create(newMarker)
     .then(results => {
       return res.status(200).json(results);
