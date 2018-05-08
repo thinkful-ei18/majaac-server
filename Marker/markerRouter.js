@@ -21,6 +21,13 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
   let icon;
   const userId = getUserId(req);
   const { incidentType, date, time, description, location } = req.body;
+
+  if (location !== typeof Object) {
+    const err = new Error('Location should be object with latitude and longitude');
+    err.status = 422;
+    return next(err);
+  }
+
   switch (incidentType) {
   case 'other': {
     icon = 'https://i.imgur.com/NpcXSor.png'; // caution icon
