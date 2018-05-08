@@ -79,6 +79,17 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
 });
 });
 
+router.post('/marker/filter', (req, res) => {
+  const { filter } = req.body;
+  Marker.find({ incidentType: filter })
+		.then(result => {
+  return res.json(result);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
+});
+
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
   Marker.findByIdAndRemove(markerId)
