@@ -61,9 +61,13 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
 });
 
 router.get('/markers', (req, res) => {
-  Marker.find().then(results => {
-    return res.status(200).json(results);
-  });
+  Marker.find()
+		.then(results => {
+  return res.status(200).json(results);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
@@ -77,6 +81,27 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
 		.catch(err => {
   res.status(404).json(err);
 });
+});
+
+router.post('/markers/filter', (req, res) => {
+  const { filter } = req.body;
+  if (!filter) {
+    Marker.find()
+			.then(results => {
+  return res.status(200).json(results);
+})
+			.catch(err => {
+  res.status(404).json(err);
+});
+  } else {
+    Marker.find({ incidentType: filter })
+			.then(result => {
+  return res.json(result);
+})
+			.catch(err => {
+  res.status(404).json(err);
+});
+  }
 });
 
 router.delete('/markers/delete', jwtAuth, (req, res) => {
