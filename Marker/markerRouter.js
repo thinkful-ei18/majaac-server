@@ -9,7 +9,6 @@ const { getUserId } = require('../utils/getUserId');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.post('/new/marker', jwtAuth, (req, res, next) => {
-
   const requiredFields = ['incidentType', 'date', 'time', 'description', 'location'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -46,12 +45,12 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
   }
   const newMarker = { incidentType, date, time, description, location, userId, icon };
   Marker.create(newMarker)
-    .then(results => {
-      return res.status(200).json(results);
-    })
-    .catch(err => {
-      res.status(404).json(err);
-    });
+		.then(results => {
+  return res.status(200).json(results);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.get('/markers', (req, res) => {
@@ -63,22 +62,21 @@ router.get('/markers', (req, res) => {
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
   Marker.find()
-    .where('userId')
-    .equals(userId)
-    .then(result => {
-      console.log(result);
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      res.status(404).json(err);
-    });
+		.where('userId')
+		.equals(userId)
+		.then(result => {
+  return res.status(200).json(result);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
   Marker.findByIdAndRemove(markerId)
-    .then(() => res.json({ message: 'Marker Deleted' }))
-    .catch(err => res.status(400).json(err));
+		.then(() => res.json({ message: 'Marker Deleted' }))
+		.catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
