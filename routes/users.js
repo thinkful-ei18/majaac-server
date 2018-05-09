@@ -3,6 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const { User } = require('../models/users');
+const { getUserId } = require('../utils/getUserId');
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const jsonParser = bodyParser.json();
 
@@ -90,6 +93,22 @@ router.post('/', jsonParser, (req, res) => {
       }
       res.status(500).json({ code: 500, message: 'Internal server error' });
     });
+});
+
+// FIXME: BROKEN
+router.put('/profilePicture', jwtAuth, (req, res) => {
+  const ppUpload = req.params;
+  const userId = getUserId(req);
+  User
+    .findById(userId)
+    .update({ profilePicture: ppUpload })
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
+
 });
 
 module.exports = { router };
