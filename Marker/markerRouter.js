@@ -18,13 +18,15 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     return next(err);
   }
   const userId = getUserId(req);
-  const { incidentType, date, time, description, location, icon } = req.body;
+  const { incidentType, date, time, description, location } = req.body;
 
   if (typeof location !== 'object') {
     const err = new Error('Location should be object with latitude and longitude');
     err.status = 422;
     return next(err);
   }
+
+  let icon;
 
   switch (incidentType) {
   case 'other': {
