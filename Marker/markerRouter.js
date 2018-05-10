@@ -84,24 +84,21 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
 });
 
 router.post('/markers/filter', (req, res) => {
-  const { filter } = req.body;
+  let { filter } = req.body;
+  console.log(filter);
   if (!filter) {
-    Marker.find()
-			.then(results => {
-  return res.status(200).json(results);
-})
-			.catch(err => {
-  res.status(404).json(err);
-});
+    filter = {};
   } else {
-    Marker.find({ incidentType: filter })
-			.then(result => {
+    filter = { incidentType: filter };
+  }
+
+  Marker.find(filter)
+		.then(result => {
   return res.json(result);
 })
-			.catch(err => {
+		.catch(err => {
   res.status(404).json(err);
 });
-  }
 });
 
 router.delete('/markers/delete', jwtAuth, (req, res) => {
