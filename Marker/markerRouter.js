@@ -18,7 +18,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     return next(err);
   }
   const userId = getUserId(req);
-  const { incidentType, date, time, description, location, icon } = req.body;
+  const { incidentType, date, time, description, location } = req.body;
 
   if (typeof location !== 'object') {
     const err = new Error('Location should be object with latitude and longitude');
@@ -26,37 +26,61 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     return next(err);
   }
 
+  let icon;
+
+  switch (incidentType) {
+  case 'other': {
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_other.png'; // caution icon
+    break;
+  }
+  case 'accident': {
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_accident.png'; // car icon
+    break;
+  }
+  case 'crime': {
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_crime.png'; // crime icon
+    break;
+  }
+  case 'roadconstruction': {
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_traffic_construction.png'; // construction
+    break;
+  }
+  case 'theft': {
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_theft.png'; // theft icon
+    break;
+  }
+  }
   const newMarker = { incidentType, date, time, description, location, userId, icon };
   Marker.create(newMarker)
-		.then(results => {
-  return res.status(200).json(results);
-})
-		.catch(err => {
-  res.status(404).json(err);
-});
+    .then(results => {
+      return res.status(200).json(results);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
 });
 
 router.get('/markers', (req, res) => {
   Marker.find()
-		.then(results => {
-  return res.status(200).json(results);
-})
-		.catch(err => {
-  res.status(404).json(err);
-});
+    .then(results => {
+      return res.status(200).json(results);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
 });
 
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
   Marker.find()
-		.where('userId')
-		.equals(userId)
-		.then(result => {
-  return res.status(200).json(result);
-})
-		.catch(err => {
-  res.status(404).json(err);
-});
+    .where('userId')
+    .equals(userId)
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
 });
 
 router.post('/markers/filter', (req, res) => {
@@ -79,8 +103,8 @@ router.post('/markers/filter', (req, res) => {
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
   Marker.findByIdAndRemove(markerId)
-		.then(() => res.json({ message: 'Marker Deleted' }))
-		.catch(err => res.status(400).json(err));
+    .then(() => res.json({ message: 'Marker Deleted' }))
+    .catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
