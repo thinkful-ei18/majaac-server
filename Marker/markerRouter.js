@@ -41,7 +41,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_crime.png'; // crime icon
     break;
   }
-  case 'roadconstruction': {
+  case 'Road-Construction': {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_traffic_construction.png'; // construction
     break;
   }
@@ -52,35 +52,35 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
   }
   const newMarker = { incidentType, date, time, description, location, userId, icon };
   Marker.create(newMarker)
-    .then(results => {
-      return res.status(200).json(results);
-    })
-    .catch(err => {
-      res.status(404).json(err);
-    });
+		.then(results => {
+  return res.status(200).json(results);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.get('/markers', (req, res) => {
   Marker.find()
-    .then(results => {
-      return res.status(200).json(results);
-    })
-    .catch(err => {
-      res.status(404).json(err);
-    });
+		.then(results => {
+  return res.status(200).json(results);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
   Marker.find()
-    .where('userId')
-    .equals(userId)
-    .then(result => {
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      res.status(404).json(err);
-    });
+		.where('userId')
+		.equals(userId)
+		.then(result => {
+  return res.status(200).json(result);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.post('/markers/filter', (req, res) => {
@@ -103,8 +103,8 @@ router.post('/markers/filter', (req, res) => {
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
   Marker.findByIdAndRemove(markerId)
-    .then(() => res.json({ message: 'Marker Deleted' }))
-    .catch(err => res.status(400).json(err));
+		.then(() => res.json({ message: 'Marker Deleted' }))
+		.catch(err => res.status(400).json(err));
 });
 
 module.exports = router;
