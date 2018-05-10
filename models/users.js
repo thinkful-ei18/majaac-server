@@ -23,21 +23,25 @@ const userSchema = mongoose.Schema({
   markers: {
     type: Object,
   },
+  profilePicture: {
+    type: String
+  }
 });
 
-userSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
-userSchema.statics.hashPassword = function(password) {
+userSchema.statics.hashPassword = function (password) {
   return bcrypt.hash(password, 12);
 };
 
-userSchema.methods.serialize = function() {
+userSchema.methods.serialize = function () {
   return {
     id: this._id,
     username: this.username || '',
     firstName: this.firstName || '',
     lastName: this.lastName || '',
+    profilePicture: this.profilePicture || '',
   };
 };
 
