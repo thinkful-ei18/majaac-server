@@ -30,23 +30,23 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
 
   switch (incidentType) {
   case 'other': {
-    icon = 'https://i.imgur.com/NpcXSor.png'; // caution icon
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_other.png'; // caution icon
     break;
   }
   case 'accident': {
-    icon = 'https://i.imgur.com/RmolD1w.png'; // car icon
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_accident.png'; // car icon
     break;
   }
   case 'crime': {
-    icon = 'https://i.imgur.com/0AQQaMn.png'; // crime icon
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_crime.png'; // crime icon
     break;
   }
   case 'roadconstruction': {
-    icon = 'https://i.imgur.com/enG4g3B.png'; // construction
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_traffic_construction.png'; // construction
     break;
   }
   case 'theft': {
-    icon = 'https://i.imgur.com/CaZTP4c.png'; // theft icon
+    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_theft.png'; // theft icon
     break;
   }
   }
