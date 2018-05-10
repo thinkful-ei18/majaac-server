@@ -29,15 +29,15 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
   let icon;
 
   switch (incidentType) {
-  case 'other': {
+  case 'Other': {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_other.png'; // caution icon
     break;
   }
-  case 'accident': {
+  case 'Accident': {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_accident.png'; // car icon
     break;
   }
-  case 'crime': {
+  case 'Crime': {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_crime.png'; // crime icon
     break;
   }
@@ -45,7 +45,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_traffic_construction.png'; // construction
     break;
   }
-  case 'theft': {
+  case 'Theft': {
     icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_theft.png'; // theft icon
     break;
   }
