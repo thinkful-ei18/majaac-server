@@ -3,8 +3,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const { User } = require('../models/users');
+const { getUserId } = require('../utils/getUserId');
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', { session: false });
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+
 
 const jsonParser = bodyParser.json();
+
+const createAuthToken = function (user) {
+  return jwt.sign({ user }, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256',
+  });
+};
 
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password'];
@@ -90,6 +104,21 @@ router.post('/', jsonParser, (req, res) => {
       }
       res.status(500).json({ code: 500, message: 'Internal server error' });
     });
+});
+
+
+router.put('/profilePicture', jwtAuth, (req, res) => {
+  const { ppUpload } = req.body;
+  const userId = getUserId(req);
+  User
+    .findByIdAndUpdate(userId, { profilePicture: ppUpload }, { new: true })
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(err => {
+      res.status(404).json(err);
+    });
+
 });
 
 module.exports = { router };

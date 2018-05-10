@@ -17,10 +17,8 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     err.status = 422;
     return next(err);
   }
-
-  let icon;
   const userId = getUserId(req);
-  const { incidentType, date, time, description, location } = req.body;
+  const { incidentType, date, time, description, location, icon } = req.body;
 
   if (typeof location !== 'object') {
     const err = new Error('Location should be object with latitude and longitude');
@@ -84,24 +82,20 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
 });
 
 router.post('/markers/filter', (req, res) => {
-  const { filter } = req.body;
+  let { filter } = req.body;
   if (!filter) {
-    Marker.find()
-      .then(results => {
-        return res.status(200).json(results);
-      })
-      .catch(err => {
-        res.status(404).json(err);
-      });
+    filter = {};
   } else {
-    Marker.find({ incidentType: filter })
-      .then(result => {
-        return res.json(result);
-      })
-      .catch(err => {
-        res.status(404).json(err);
-      });
+    filter = { incidentType: filter };
   }
+
+  Marker.find(filter)
+		.then(result => {
+  return res.json(result);
+})
+		.catch(err => {
+  res.status(404).json(err);
+});
 });
 
 router.delete('/markers/delete', jwtAuth, (req, res) => {
