@@ -108,17 +108,12 @@ router.post('/', jsonParser, (req, res) => {
 
 
 router.put('/profilePicture', jwtAuth, (req, res) => {
-  console.log('here');
   const { ppUpload } = req.body;
-  console.log('profile picture passed', ppUpload);
   const userId = getUserId(req);
   User
     .findByIdAndUpdate(userId, { profilePicture: ppUpload }, { new: true })
-    // .update({ profilePicture: ppUpload })
     .then(result => {
-      console.log(result);
-      const authToken = createAuthToken(result.serialize());
-      return res.status(200).json({ authToken });
+      return res.status(200).json(result);
     })
     .catch(err => {
       res.status(404).json(err);
