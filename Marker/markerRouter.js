@@ -46,7 +46,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     break;
   }
   case 'Theft': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_theft.png'; // theft icon
+    icon = 'http://res.cloudinary.com/adriantoddross/image/upload/v1526315149/100px_map_icon_theft.svg'; // theft icon
     break;
   }
   }
