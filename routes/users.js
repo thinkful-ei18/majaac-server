@@ -117,8 +117,8 @@ router.put('/profilePicture', jwtAuth, (req, res) => {
 router.get('/username', jwtAuth, (req, res) => {
   const userId = getUserId(req);
   User.findById(userId)
-  .then(result => res.status(200).json(result.username))
-  .catch(err => res.status(404).json(err));
+		.then(result => res.status(200).json({ username: result.username, profilePicture: result.profilePicture }))
+		.catch(err => res.status(404).json(err));
 });
 
 module.exports = { router };
