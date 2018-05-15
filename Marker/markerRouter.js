@@ -42,7 +42,8 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     break;
   }
   case 'Road-Construction': {
-    icon = 'https://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_traffic_construction.png'; // construction
+    icon =
+				'https://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_traffic_construction.png'; // construction
     break;
   }
   case 'Theft': {
