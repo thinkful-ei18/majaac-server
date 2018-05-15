@@ -7,37 +7,38 @@ const { JWT_SECRET } = require('../config');
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
   let user;
+  username = username.toLowerCase();
   User.findOne({ username })
-    .then(resUser => {
-      user = resUser;
-      if (!user) {
-        return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect Username',
-          location: 'username',
-          status: 422
-        });
-      }
-      return user.validatePassword(password);
-    })
-    .then(isValid => {
-      if (!isValid) {
-        return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect Password',
-          location: 'password',
-          status: 422
-        });
-      }
-      //if the if statement does not run return the user
-      return callback(null, user);
-    })
-    .catch(err => {
-      if (err.reason === 'LoginError') {
-        return callback(err);
-      }
-      return callback(null, false);
+		.then(resUser => {
+  user = resUser;
+  if (!user) {
+    return Promise.reject({
+      reason: 'LoginError',
+      message: 'Incorrect Username',
+      location: 'username',
+      status: 422,
     });
+  }
+  return user.validatePassword(password);
+})
+		.then(isValid => {
+  if (!isValid) {
+    return Promise.reject({
+      reason: 'LoginError',
+      message: 'Incorrect Password',
+      location: 'password',
+      status: 422,
+    });
+  }
+			//if the if statement does not run return the user
+  return callback(null, user);
+})
+		.catch(err => {
+  if (err.reason === 'LoginError') {
+    return callback(err);
+  }
+  return callback(null, false);
+});
 });
 
 const jwtStrategy = new JwtStrategy(
@@ -46,9 +47,9 @@ const jwtStrategy = new JwtStrategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     algorithms: ['HS256'],
   },
-  (payload, done) => {
-    done(null, payload.user);
-  }
+	(payload, done) => {
+  done(null, payload.user);
+}
 );
 
 module.exports = { localStrategy, jwtStrategy };
