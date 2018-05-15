@@ -30,23 +30,23 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
 
   switch (incidentType) {
   case 'Other': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_other.png'; // caution icon
+    icon = 'https://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_other.png'; // caution icon
     break;
   }
   case 'Accident': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_accident.png'; // car icon
+    icon = 'https://res.cloudinary.com/adriantoddross/image/upload/v1526329108/100px_map_icon_accident.png'; // car icon
     break;
   }
   case 'Crime': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_crime.png'; // crime icon
+    icon = 'http://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_crime.png'; // crime icon
     break;
   }
   case 'Road-Construction': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883156/map_icon_traffic_construction.png'; // construction
+    icon = 'https://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_traffic_construction.png'; // construction
     break;
   }
   case 'Theft': {
-    icon = 'http://res.cloudinary.com/dw6hemcpj/image/upload/v1525883157/map_icon_theft.png'; // theft icon
+    icon = 'https://res.cloudinary.com/adriantoddross/image/upload/v1526329107/100px_map_icon_theft.png'; // theft icon
     break;
   }
   }
