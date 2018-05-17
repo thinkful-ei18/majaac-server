@@ -10,7 +10,7 @@ const { User } = require('../models/users');
 const mongoose = require('mongoose');
 const { TEST_DATABASE_URL, JWT_SECRET } = require('../config');
 
-describe.only('Safer API - Auth router', () => {
+describe('Safer API - Auth router', () => {
   const testUser = {
     'username': 'bumper2',
     'password': 'catsarecool',
