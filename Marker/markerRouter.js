@@ -61,7 +61,7 @@ router.post('/new/marker', jwtAuth, (req, res, next) => {
     });
 });
 
-// Get all markers - unauthorized (DESKTOP)
+// Get all markers - unauthorized (DESKTOP) - tested
 router.get('/markers', (req, res) => {
   Marker.find()
     .then(results => {
@@ -72,7 +72,7 @@ router.get('/markers', (req, res) => {
     });
 });
 
-// Get all markers - authorized (MOBILE)
+// Get all markers - authorized (MOBILE) - tested
 router.get('/markers/dashboard', jwtAuth, (req, res) => {
   const userId = getUserId(req);
   Marker.find()

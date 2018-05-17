@@ -43,7 +43,6 @@ describe('Safer API - Markers', () => {
 
     return Promise.all([userPasswordPromise, userCreatePromise, markerInsertPromise])
       .then(() => {
-        console.log('worked');
       });
   });
 
@@ -76,9 +75,34 @@ describe('Safer API - Markers', () => {
   // Get all markers - authorized (MOBILE)
   describe('GET /api/markers/dashboard', () => {
     it('should get all the markers for the mobile dashboard', () => {
-      let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWFmZGE2MGI3OTE5MjEzNTUyMmVkOGEwIiwidXNlcm5hbWUiOiJmcm9udGVuZDIyMiIsImZpcnN0TmFtZSI6IiIsImxhc3ROYW1lIjoiIiwicHJvZmlsZVBpY3R1cmUiOiIifSwiaWF0IjoxNTI2NTcyNTk5LCJleHAiOjE1MjcxNzczOTksInN1YiI6ImZyb250ZW5kMjIyIn0.nwqemCgcqB3f8Eo8yhgBEBhsEtOcHrPrKYwtydEp4ZU"
-      const db = Marker.find();
-      const api = chai.request(app).get('/api/markers');
+      const dbPromise = Marker.find().where('userId').equals(testUser._id);
+      const apiPromise = chai.request(app).get('/api/markers/dashboard').set('authorization', `Bearer ${token}`);
+      return Promise.all([dbPromise, apiPromise])
+        .then(([data, res]) => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('array');
+          expect(res.body).to.have.length(data.length);
+        });
+    });
+
+    it('should return unauthorized', () => {
+      const dbPromise = Marker.find().where('userId').equals(testUser._id);
+      const apiPromise = chai.request(app).get('/api/markers/dashboard').set('authorization', `Bearer ${token + 2}`);
+      return Promise.all([dbPromise, apiPromise])
+        .then(([data, res]) => {
+        }).catch((err) => {
+          expect(err).to.have.status(401);
+        });
+    });
+  });
+
+  // Get markers based on filter
+  describe('POST /api/markers/filter', () => {
+    it('should get all the markers in the filter', () => {
+      let filter = 'theft';
+      const db = Marker.find({ incidentType: filter });
+      const api = chai.request(app).post('/api/markers/filter').send({ 'filter': 'theft' });
 
       return Promise.all([db, api])
         .then(([data, res]) => {
@@ -86,6 +110,24 @@ describe('Safer API - Markers', () => {
           expect(res).to.be.json;
           expect(res.body).to.be.a('array');
           expect(res.body).to.have.length(data.length);
+        });
+    });
+  });
+
+  // Delete markers
+  describe('DELETE /api/markers/delete', () => {
+    it('should delete the marker', () => {
+      const db = Marker.findByIdAndRemove('333333333333333333333300');
+      const api = chai.request(app)
+        .delete('/api/markers/delete')
+        .set('authorization', `Bearer ${token}`)
+        .send({ 'markerId': '333333333333333333333300' });
+
+      return Promise.all([db, api])
+        .then(([data, res]) => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.text).to.equal('{"message":"Marker Deleted"}');
         });
     });
   });

@@ -10,9 +10,6 @@ const { dbConnect, dbDisconnect } = require('../db-mongoose');
 // You can do this in the command line, but this is cross-platform
 process.env.NODE_ENV = 'test';
 
-// Clear the console before each run
-process.stdout.write('\x1Bc\n');
-
 const expect = chai.expect;
 chai.use(chaiHttp);
 
