@@ -155,7 +155,7 @@ describe('Safer API - Markers', () => {
         'time': '02:01 PM',
         'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
         'description': 'description',
-        'userId': '333333333333333333333311'
+        'userId': '333333333333333333333300'
       };
       const db = Marker.create(newMarker);
       const api = chai.request(app)
@@ -167,12 +167,11 @@ describe('Safer API - Markers', () => {
           'time': '02:01 PM',
           'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
           'description': 'description',
-          'userId': '333333333333333333333311'
+          'userId': '333333333333333333333300'
         });
 
       return Promise.all([db, api])
         .then(([data, res]) => {
-          console.log(res.body);
           expect(res).to.have.status(200);
           expect(res).to.be.json;
           expect(res.body).to.contain({
@@ -183,6 +182,34 @@ describe('Safer API - Markers', () => {
             userId: '333333333333333333333300',
             icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
           });
+        });
+    });
+
+    it('should return an error for a missing field', () => {
+      let newMarker = {
+        'incidentType': 'theft',
+        'time': '02:01 PM',
+        'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+        'description': 'description',
+        'userId': '333333333333333333333300'
+      };
+      const db = Marker.create(newMarker);
+      const api = chai.request(app)
+        .post('/api/new/marker')
+        .set('authorization', `Bearer ${token}`)
+        .send({
+          'incidentType': 'theft',
+          'time': '02:01 PM',
+          'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+          'description': 'description',
+          'userId': '333333333333333333333300'
+        });
+
+      return Promise.all([db, api])
+        .then(([data, res]) => {
+        }).catch((err) => {
+          console.log(err.body.message);
+          expect(err).to.have.status(422);
         });
     });
   });

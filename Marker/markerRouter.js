@@ -86,7 +86,7 @@ router.get('/markers/dashboard', jwtAuth, (req, res) => {
     });
 });
 
-// Get markers based on filter - unauthorized
+// Get markers based on filter - unauthorized - tested
 router.post('/markers/filter', (req, res) => {
   let { filter } = req.body;
   if (!filter) {
@@ -104,7 +104,7 @@ router.post('/markers/filter', (req, res) => {
     });
 });
 
-// Delete a marker - authorized
+// Delete a marker - authorized - tested
 router.delete('/markers/delete', jwtAuth, (req, res) => {
   const markerId = req.body.markerId;
   Marker.findByIdAndRemove(markerId)
