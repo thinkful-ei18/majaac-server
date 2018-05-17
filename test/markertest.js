@@ -130,6 +130,61 @@ describe('Safer API - Markers', () => {
           expect(res.text).to.equal('{"message":"Marker Deleted"}');
         });
     });
+
+    it('should return 400 for incorrect id', () => {
+      const db = Marker.findByIdAndRemove('333333333333333333333555');
+      const api = chai.request(app)
+        .delete('/api/markers/delete')
+        .set('authorization', `Bearer ${token}`)
+        .send({ 'markerId': '333333333333333333333555' });
+
+      return Promise.all([db, api])
+        .then(([data, res]) => {
+        }).catch((err) => {
+          expect(err).to.have.status(400);
+        });
+    });
+  });
+
+  // Post a new marker
+  describe('POST /api/new/marker', () => {
+    it('add a new marker', () => {
+      let newMarker = {
+        'incidentType': 'theft',
+        'date': '08/20/2017',
+        'time': '02:01 PM',
+        'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+        'description': 'description',
+        'userId': '333333333333333333333311'
+      };
+      const db = Marker.create(newMarker);
+      const api = chai.request(app)
+        .post('/api/new/marker')
+        .set('authorization', `Bearer ${token}`)
+        .send({
+          'incidentType': 'theft',
+          'date': '08/20/2017',
+          'time': '02:01 PM',
+          'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+          'description': 'description',
+          'userId': '333333333333333333333311'
+        });
+
+      return Promise.all([db, api])
+        .then(([data, res]) => {
+          console.log(res.body);
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.contain({
+            incidentType: 'theft',
+            date: '08/20/2017',
+            time: '02:01 PM',
+            description: 'description',
+            userId: '333333333333333333333300',
+            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+          });
+        });
+    });
   });
 });
 
