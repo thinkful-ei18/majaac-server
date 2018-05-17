@@ -8,6 +8,7 @@ const { getUserId } = require('../utils/getUserId');
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
+// Post a new marker - authenticated - tested
 router.post('/new/marker', jwtAuth, (req, res, next) => {
   const requiredFields = ['incidentType', 'date', 'time', 'description', 'location'];
   const missingField = requiredFields.find(field => !(field in req.body));

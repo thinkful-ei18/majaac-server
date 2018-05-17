@@ -3,7 +3,6 @@
 const { app } = require('../index');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
-const expect = chai.expect;
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/users');
 
@@ -208,42 +207,9 @@ describe('Safer API - Markers', () => {
       return Promise.all([db, api])
         .then(([data, res]) => {
         }).catch((err) => {
-          console.log(err.body.message);
           expect(err).to.have.status(422);
+          expect(err.response.body.message).to.equal('Missing \'date\' in incident report');
         });
     });
   });
 });
-
-
-
-
-
-
-
-
-
-// describe('Create Markers', function() {
-//   afterEach(function() {
-//     return mongoose.connection.db.dropDatabase().catch(err => console.error(err));
-//   });
-//   after(function() {
-//     return mongoose.disconnect();
-//   });
-//   it('Creates a marker to database', function(done) {
-//     const mark = new Marker({
-//       incidentType: 'crime',
-//       date: '10/20/2017',
-//       time: '11:01 AM',
-//       location: {
-//         lng: -23.98032293782005,
-//         lat: 123.95300273973484,
-//       },
-//       userId: '5afb1e3200a094001472073a',
-//       description: 'Mocha and Chai Test',
-//     });
-//     Marker.create(mark).then(() => {
-//       assert(mark.isNew === false);
-//     });
-//   });
-// });
