@@ -3,6 +3,7 @@
 const { app } = require('../index');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
+const expect = chai.expect;
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/users');
 
@@ -184,7 +185,7 @@ describe('Safer API - Markers', () => {
         });
     });
 
-    it('should return an error for a missing field', () => {
+    it('should return an error for a missing date field', () => {
       let newMarker = {
         'incidentType': 'theft',
         'time': '02:01 PM',
@@ -211,5 +212,119 @@ describe('Safer API - Markers', () => {
           expect(err.response.body.message).to.equal('Missing \'date\' in incident report');
         });
     });
+
+    it('should return an error for a missing date field', () => {
+      let newMarker = {
+        'incidentType': 'theft',
+        'date': '08/20/2017',
+        'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+        'description': 'description',
+        'userId': '333333333333333333333300'
+      };
+      const db = Marker.create(newMarker);
+      const api = chai.request(app)
+        .post('/api/new/marker')
+        .set('authorization', `Bearer ${token}`)
+        .send({
+          'incidentType': 'theft',
+          'date': '08/20/2017',
+          'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+          'description': 'description',
+          'userId': '333333333333333333333300'
+        });
+
+      return Promise.all([db, api])
+        .then(([data, res]) => {
+        }).catch((err) => {
+          expect(err).to.have.status(422);
+          expect(err.response.body.message).to.equal('Missing \'time\' in incident report');
+        });
+    });
+  });
+
+  it('return an error for missing incident type field', () => {
+    let newMarker = {
+      'date': '08/20/2017',
+      'time': '02:01 PM',
+      'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+      'description': 'description',
+      'userId': '333333333333333333333300'
+    };
+    const db = Marker.create(newMarker);
+    const api = chai.request(app)
+      .post('/api/new/marker')
+      .set('authorization', `Bearer ${token}`)
+      .send({
+        'date': '08/20/2017',
+        'time': '02:01 PM',
+        'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+        'description': 'description',
+        'userId': '333333333333333333333300'
+      });
+
+    return Promise.all([db, api])
+      .then(([data, res]) => {
+      }).catch((err) => {
+        expect(err).to.have.status(422);
+        expect(err.response.body.message).to.equal('Missing \'incidentType\' in incident report');
+      });
+  });
+
+  it('return an error for missing location field', () => {
+    let newMarker = {
+      'incidentType': 'theft',
+      'date': '08/20/2017',
+      'location': 123,
+      'time': '02:01 PM',
+      'description': 'description',
+      'userId': '333333333333333333333300'
+    };
+    const db = Marker.create(newMarker);
+    const api = chai.request(app)
+      .post('/api/new/marker')
+      .set('authorization', `Bearer ${token}`)
+      .send({
+        'incidentType': 'theft',
+        'date': '08/20/2017',
+        'location': 123,
+        'time': '02:01 PM',
+        'description': 'description',
+        'userId': '333333333333333333333300'
+      });
+
+    return Promise.all([db, api])
+      .then(([data, res]) => {
+      }).catch((err) => {
+        expect(err).to.have.status(422);
+        expect(err.response.body.message).to.equal('Location should be object with latitude and longitude');
+      });
+  });
+
+  it('return an error for missing description', () => {
+    let newMarker = {
+      'incidentType': 'theft',
+      'date': '08/20/2017',
+      'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+      'time': '02:01 PM',
+      'userId': '333333333333333333333300'
+    };
+    const db = Marker.create(newMarker);
+    const api = chai.request(app)
+      .post('/api/new/marker')
+      .set('authorization', `Bearer ${token}`)
+      .send({
+        'incidentType': 'theft',
+        'date': '08/20/2017',
+        'location': { 'lat': 113.95300273973484, 'lng': -23.98032293782005 },
+        'time': '02:01 PM',
+        'userId': '333333333333333333333300'
+      });
+
+    return Promise.all([db, api])
+      .then(([data, res]) => {
+      }).catch((err) => {
+        expect(err).to.have.status(422);
+        expect(err.response.body.message).to.equal('Missing \'description\' in incident report');
+      });
   });
 });
