@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
-const createAuthToken = function(user) {
+const createAuthToken = function (user) {
   return jwt.sign({ user }, config.JWT_SECRET, {
     subject: user.username,
     expiresIn: config.JWT_EXPIRY,
@@ -23,6 +23,7 @@ router.use(bodyParser.json());
 //when user tries to login this is the route
 //they will provide username and password
 router.post('/login', localAuth, (req, res) => {
+  console.log('login!');
   const authToken = createAuthToken(req.user.serialize());
   res.json({ authToken });
 });
