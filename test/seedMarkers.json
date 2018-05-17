@@ -7,8 +7,8 @@
       "lng": -23.98032293782005,
       "lat": 123.95300273973484
     },
-    "userId": "5afb1e3200a094001472073a",
-    "description": "Mocha and Chai Test"
+    "description": "Mocha and Chai Test",
+    "userId": "5afb1e3200a094001472073a"
   },
   {
     "incidentType": "theft",
@@ -18,7 +18,7 @@
       "lng": -24.98032293782005,
       "lat": 103.95300273973484
     },
-    "userId": "5afb1e3200a094001472073a",
-    "description": "Mocha and Chai Test Example 2"
+    "description": "Mocha and Chai Test Example 2",
+    "userId": "5afb1e3200a094001472073a"
   }
 ]
