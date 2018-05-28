@@ -42,3 +42,9 @@ A RESTful API was created to handle the requests from the client portion of safe
 * MongoDB
 * Mocha
 * Chai
+
+### Screenshots
+<img src='https://user-images.githubusercontent.com/29032869/40601116-a88142f8-6208-11e8-8657-ea435fd51f0f.png' />
+<img src='https://user-images.githubusercontent.com/29032869/40601117-a8ad19dc-6208-11e8-8220-1e23bbba9c2a.png' />
+<img src='https://user-images.githubusercontent.com/29032869/40601118-a8c69736-6208-11e8-9d77-4e3a3f4e3a9e.png' />
+
