@@ -1,0 +1,24 @@
+[
+  {
+    "incidentType": "crime",
+    "date": "10/20/2017",
+    "time": "11:01 AM",
+    "location": {
+      "lng": -23.98032293782005,
+      "lat": 123.95300273973484
+    },
+    "description": "Mocha and Chai Test",
+    "userId": "333333333333333333333300"
+  },
+  {
+    "incidentType": "theft",
+    "date": "11/20/2017",
+    "time": "04:01 AM",
+    "location": {
+      "lng": -24.98032293782005,
+      "lat": 103.95300273973484
+    },
+    "description": "Mocha and Chai Test Example 2",
+    "userId": "5afb1e3200a094001472073a"
+  }
+]
